@@ -1,5 +1,6 @@
 import streamlit as st
 import instaloader
+import json
 import numpy as np
 
 def fetch_instagram_profile(username, instaloader_username, instaloader_password):
@@ -8,9 +9,13 @@ def fetch_instagram_profile(username, instaloader_username, instaloader_password
 
     # Login to Instagram
     context = instaloader.InstaloaderContext(ig.context)
-    context.load_session_from_file(instaloader_username, instaloader_password)
-
+    
     try:
+        # Load session from file using JSON
+        with open(f'{instaloader_username}_session.json', 'r') as sessionfile:
+            session_data = json.load(sessionfile)
+            context.session.cookies = requests.utils.cookiejar_from_dict(session_data)
+
         # Fetch profile information
         profile = instaloader.Profile.from_username(context, username)
 
@@ -72,10 +77,9 @@ def main():
     search_button = st.button("Search")
     predict_button = st.button("Predict")
 
-   # Instagram credentials (replace with your own credentials)
+    # Instagram credentials (replace with your own credentials)
     instaloader_username = "sih_algorithm"
-    instaloader_password = "sih#2023"
-
+    instaloader_password = "Sih#2023"
 
     # Perform actions based on button clicks
     if search_button and username:
@@ -91,6 +95,3 @@ def main():
 
 if __name__ == "__main__":
     main()
-
-   
- 
