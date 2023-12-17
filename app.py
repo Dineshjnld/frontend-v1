@@ -7,11 +7,12 @@ def fetch_instagram_profile(username, instaloader_username, instaloader_password
     ig = instaloader.Instaloader()
 
     # Login to Instagram
-    ig.load_session_from_file(instaloader_username, instaloader_password)
+    context = instaloader.InstaloaderContext(ig.context)
+    context.load_session_from_file(instaloader_username, instaloader_password)
 
     try:
         # Fetch profile information
-        profile = instaloader.Profile.from_username(ig.context, username)
+        profile = instaloader.Profile.from_username(context, username)
 
         # Display fetched details
         st.write("### Results:")
@@ -71,9 +72,10 @@ def main():
     search_button = st.button("Search")
     predict_button = st.button("Predict")
 
-    # Instagram credentials (replace with your own credentials)
+   # Instagram credentials (replace with your own credentials)
     instaloader_username = "sih_algorithm"
     instaloader_password = "sih#2023"
+
 
     # Perform actions based on button clicks
     if search_button and username:
@@ -89,3 +91,6 @@ def main():
 
 if __name__ == "__main__":
     main()
+
+   
+ 
